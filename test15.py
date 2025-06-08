@@ -112,7 +112,7 @@ def create_slippi_image():
         
         # Gymnasium for RL environments
         "gymnasium==0.28.1",
-        "gym==0.21.0",  # For backward compatibility
+        "gym==0.26.2",  # For backward compatibility
     ])
     
     # Clone the repository
