@@ -1,0 +1,37 @@
+
+FROM tensorflow/tensorflow:2.12.0-gpu
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    git build-essential pkg-config curl wget \
+    libssl-dev libffi-dev python3-dev cmake \
+    libc6-dev gcc g++ make zlib1g-dev
+
+# Install Rust
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+ENV PATH="/root/.cargo/bin:$PATH"
+
+# Clone slippi-ai repo
+RUN git clone https://github.com/vladfi1/slippi-ai.git /root/slippi-ai
+WORKDIR /root/slippi-ai
+
+# Install Python dependencies
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install maturin
+
+# Install peppi-py (this is the tricky one)
+RUN pip install --no-build-isolation --verbose \
+    "peppi-py @ git+https://github.com/hohav/peppi-py.git@8c02a4659c3302321dfbfcf2093c62f634e335f7"
+
+# Install other dependencies
+RUN pip install sacred pymongo pandas matplotlib seaborn dm-tree gym gymnasium
+
+# Install project requirements
+RUN pip install -r requirements.txt || echo "Some requirements failed"
+RUN pip install -e . || echo "Package installation failed"
+
+# Set environment variables
+ENV TF_ENABLE_ONEDNN_OPTS=0
+ENV TF_CPP_MIN_LOG_LEVEL=1
+ENV WANDB_MODE=disabled
+ENV PYTHONUNBUFFERED=1
