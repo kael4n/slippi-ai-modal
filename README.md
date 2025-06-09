@@ -1,56 +1,30 @@
-<<<<<<< HEAD
-# Slippi-AI (Phillip II)
+# Slippi AI on Modal
 
-This project is the successor to [Phillip](https://github.com/vladfi1/phillip). While the original Phillip used pure deep RL, this one starts with behavioral cloning on slippi replays, which makes it play a lot more like a human. There is a [discord channel](https://discord.gg/hfVTXGu) for discussion/feedback/support.
+[cite_start]This is a fork of Vlad Fiacco's (vladfi1) [slippi-ai project](https://github.com/vladfi1/slippi-ai)[cite: 55], adapted to run training and experiments on the [Modal Labs](https://modal.com/) cloud compute platform.
 
-## Playing the Bot
+## Project Goal
 
-The bot is available to play via netplay on my [twitch channel](https://twitch.tv/x_pilot).
+The primary goal of this repository is to leverage Modal for handling the complex Rust-based dependencies (like `peppi-py`) and for scaling up AI model training on GPUs in the cloud.
 
-I am hesitant to release any trained agents as I don't want people using them on ranked/unranked, so at the moment the bot isn't available to play against locally.
+## Structure
 
-## Recordings
+The original project structure has been reorganized for clarity:
 
-Phillip has played a number of top players:
-* [Zain 1](https://www.youtube.com/watch?v=c8nRFAGvr2c), [Zain 2](https://www.youtube.com/watch?v=XBHaHlC3_p4)
-* [Amsa + Cody](https://www.youtube.com/watch?v=WGsN7lWBQP)
-* [Moky](https://www.youtube.com/watch?v=1kviVflqXc4)
-* [Aklo](https://www.youtube.com/watch?v=OGOEqhMptq0)
+* [cite_start]`Dockerfile.slippi`: A Dockerfile for containerizing the project.
+* [cite_start]`/scripts/working/`: Contains the main, active development scripts.
+    * [cite_start]`experimental.py`: The current script for ongoing experiments.
+    * [cite_start]Other stable or working scripts are also located here.
+* [cite_start]`/scripts/archive/`: Contains older or deprecated script versions for historical reference.
+* [cite_start]`requirements.txt`: The specific Python dependencies for the project.
+* [cite_start]`setup.py`: The project's installation script.
 
-My [youtube channel](https://www.youtube.com/channel/UCzpDWSOtWpDaNPC91dqmPQg) also has some recordings and clips.
+## How to Run
 
-## Acknowledgements
+This project is intended to be run via Modal.
 
-* Huge thanks to Fizzi for writing the fast-forward gecko code that significantly speeds up RL training, for providing most of the imitation training data in the form of anonymized ranked collections (link in the Slippi discord), and of course for giving us Slippi in the first place. Even prior to rollback netcode, slippi replays were what rekindled my interest in melee AI, and are what gave name to this repo.
-* Big thanks also to [altf4](https://github.com/altf4) for creating the [libmelee](https://github.com/altf4/libmelee) interface to slippi dolphin, making melee AI development accessible to everyone.
-* Thank you to the many players who have generously shared their replays.
-* Finally, a big thank you to my dad for proving the computing hardware used to train phillip.
-
-# Code Overview
-
-Phillip is trained in two stages. In the first stage, it learns to imitate human play from a large dataset of slippi replays. The resulting imitation policy is ok, but makes a lot of mistakes. In the second stage, the imitation policy is refined by playing against itself with Reinforcement Learning. This results in much stronger agents that have their own style of play.
-
-## Creating a Dataset
-
-The first step is preprocess your slippi replays using [`slippi_db/parse_local.py`](https://github.com/vladfi1/slippi-ai/blob/main/slippi_db/parse_local.py). See the documentation in that file for more details.
-
-Note: local parsing currently depends on [peppi-py](https://github.com/hohav/peppi-py) version [0.6.0](https://github.com/hohav/peppi-py/commit/8c02a4659c3302321dfbfcf2093c62f634e335f7) which you may need to build manually.
-
-The output of this step will be a `Parsed` directory of preprocessed games and a `meta.json` metadata file.
-
-## Imitation Learning
-
-The entry point for imitation learning is [`scripts/train.py`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/train.py). See [`scripts/imitation_example.sh`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/imitation_example.sh) for appropriate arguments.
-
-Metrics are logged to [wandb](https://wandb.ai/) during training. To use your own wandb account, set the `WANDB_API_KEY` environment variable. The key metric to look at is `eval.policy.loss` -- once this has plateaued you can stop training. On a good GPU (e.g. a 3080Ti), imitation learning should take a few days to a week. The agent checkpoint will be periodically written to `experiments/<tag>/latest.pkl`.
-
-## Reinforcement Learning
-
-There are two entry points for RL: [`slippi_ai/rl/run.py`](https://github.com/vladfi1/slippi-ai/blob/main/slippi_ai/rl/run.py) for training an agent in the ditto, and [`slippi_ai/rl/train_two.py`](https://github.com/vladfi1/slippi-ai/blob/main/slippi_ai/rl/train_two.py) which trains two agents simultaneously. The arguments are similar for both; see [`scripts/rl_example.sh`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/rl_example.sh) for an example ditto training script.
-
-## Evaluation
-
-To play a trained agent or watch two trained agents play each other, use [`scripts/eval_two.py`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/eval_two.py). To do a full evaluation of two agents against each other, use [`scripts/run_evaluator.py`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/run_evaluator.py).
-=======
-# slippi-ai-modal
->>>>>>> 390f2f72e196cb7d04f1d87beaa694d027c27946
+1.  **Prerequisites**: Ensure you have Python and the Modal client installed (`pip install modal-client`).
+2.  **Configuration**: Create a `.env` file for any necessary API keys (e.g., for `wandb`).
+3.  **Execution**: Run the desired script using the Modal CLI. For example:
+    ```bash
+    modal run scripts/working/experimental.py
+    ```

@@ -9,8 +9,8 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 setup(
     name="slippi-ai-modal",
     version="0.1.0",
-    author="Your Name",
-    author_email="your.email@example.com",
+    author="KB",
+    author_email="kael4n@gmail.com",
     description="AI agent for Super Smash Bros. Melee using imitation learning from Slippi replays",
     long_description=long_description,
     long_description_content_type="text/markdown",
