@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Slippi-AI (Phillip II)
 
 This project is the successor to [Phillip](https://github.com/vladfi1/phillip). While the original Phillip used pure deep RL, this one starts with behavioral cloning on slippi replays, which makes it play a lot more like a human. There is a [discord channel](https://discord.gg/hfVTXGu) for discussion/feedback/support.
@@ -50,3 +51,6 @@ There are two entry points for RL: [`slippi_ai/rl/run.py`](https://github.com/vl
 ## Evaluation
 
 To play a trained agent or watch two trained agents play each other, use [`scripts/eval_two.py`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/eval_two.py). To do a full evaluation of two agents against each other, use [`scripts/run_evaluator.py`](https://github.com/vladfi1/slippi-ai/blob/main/scripts/run_evaluator.py).
+=======
+# slippi-ai-modal
+>>>>>>> 390f2f72e196cb7d04f1d87beaa694d027c27946
