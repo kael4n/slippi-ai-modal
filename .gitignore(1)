@@ -139,7 +139,6 @@ Thumbs.db
 # Development/testing files
 test*.py
 debug*.py
-experimental*.py
 *_old.py
 *_backup.py
 *(1).py
